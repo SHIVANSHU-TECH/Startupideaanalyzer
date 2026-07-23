@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getFirestore } from '@/lib/firestore';
+import { initializeFirebaseAdmin, getFirestore } from '@/lib/firebase-admin';
 import * as firebaseAdmin from 'firebase-admin';
 
 export async function GET() {
   try {
     console.log('Testing Firestore date handling...');
     
+    initializeFirebaseAdmin();
     const db = getFirestore();
     
     // Test creating a document with dates

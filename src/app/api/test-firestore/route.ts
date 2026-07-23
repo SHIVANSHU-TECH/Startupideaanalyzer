@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getFirestore } from '@/lib/firestore';
+import { NextResponse } from 'next/server';
+import { initializeFirebaseAdmin, getFirestore } from '@/lib/firebase-admin';
 
 export async function GET() {
   try {
     console.log('Testing Firestore operations...');
     
+    initializeFirebaseAdmin();
     const db = getFirestore();
     
     // Test creating a document
