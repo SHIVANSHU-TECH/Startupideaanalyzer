@@ -156,16 +156,22 @@ export async function GET(request: NextRequest) {
 
 // PUT /api/ideas/[id] - Update an idea and trigger analysis
 export async function PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  request: NextRequest
 ) {
   try {
     const payload = authenticateToken(request);
     await connectDB();
-    const { id } = await params;
 
     // Parse request body
     const body = await request.json();
+    const id = body.id;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Idea ID is required' },
+        { status: 400 }
+      );
+    }
 
     // Validate input
     const { error, value } = updateIdeaSchema.validate(body);
