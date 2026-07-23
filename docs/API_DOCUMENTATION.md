@@ -358,6 +358,7 @@ Get all saved reports for the authenticated user.
 ```
 
 ### GET /api/reports/[id]/download
+### looks perfect
 Download a specific report.
 
 **Headers:** `Authorization: Bearer <token>`
