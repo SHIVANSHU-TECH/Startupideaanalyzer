@@ -381,7 +381,7 @@ function AnalyticsContent() {
                         </div>
                         <div>
                           <p className="text-sm font-medium text-gray-900">
-                            {activity.action} "{activity.idea}"
+                            {activity.action} &ldquo;{activity.idea}&rdquo;
                           </p>
                           <p className="text-sm text-gray-500">{activity.date}</p>
                         </div>

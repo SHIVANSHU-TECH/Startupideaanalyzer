@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getFirestore } from '@/lib/firestore';
+import * as firebaseAdmin from 'firebase-admin';
 
 export async function GET() {
   try {
@@ -33,7 +34,7 @@ export async function GET() {
         updatedAt: new Date(),
         updated: true,
         // Test with server timestamp
-        serverTimestamp: require('firebase-admin').firestore.FieldValue.serverTimestamp()
+        serverTimestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp()
       });
       
       console.log('Test document updated successfully');

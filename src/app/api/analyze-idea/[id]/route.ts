@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { analyzeStartupIdea } from '@/lib/ai-analysis';
 import { initializeFirebaseAdmin, getFirestore } from '@/lib/firebase-admin';
+import * as firebaseAdmin from 'firebase-admin';
 
 export async function POST(
   request: NextRequest,
@@ -27,7 +28,7 @@ export async function POST(
     console.log('ID token extracted (first 10 chars):', idToken.substring(0, 10) + '...');
     
     // Import admin dynamically to avoid browser issues
-    const admin = await import('firebase-admin');
+    const admin = firebaseAdmin;
     
     // Verify Firebase ID token
     let decodedToken;
@@ -160,13 +161,13 @@ export async function POST(
           financialProjections: analysis.financialProjections,
           competitorAnalysis: analysis.competitorAnalysis,
           targetAudience: analysis.targetAudience,
-          generatedAt: require('firebase-admin').firestore.FieldValue.serverTimestamp(),
+          generatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
         };
         
         await db.collection('ideas').doc(ideaId).update({
           status: 'analyzed',
           analysis: analysisData,
-          updatedAt: require('firebase-admin').firestore.FieldValue.serverTimestamp()
+          updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp()
         });
         
         console.log('Analysis results saved successfully');
@@ -192,7 +193,7 @@ export async function POST(
         // Update status to failed
         await db.collection('ideas').doc(ideaId).update({
           status: 'failed',
-          updatedAt: require('firebase-admin').firestore.FieldValue.serverTimestamp()
+          updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp()
         });
         
         return NextResponse.json(
@@ -207,7 +208,7 @@ export async function POST(
       try {
         await db.collection('ideas').doc(ideaId).update({
           status: 'failed',
-          updatedAt: require('firebase-admin').firestore.FieldValue.serverTimestamp()
+          updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp()
         });
         console.log('Idea status updated to failed');
       } catch (updateError) {

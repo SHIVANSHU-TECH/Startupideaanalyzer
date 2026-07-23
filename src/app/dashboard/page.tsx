@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { FirebaseIdea } from '@/lib/firebase';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
@@ -181,9 +182,9 @@ function DashboardContent() {
               </button>
               {showUserMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                  <a href="/analysis" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  <Link href="/analysis" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Analysis
-                  </a>
+                  </Link>
                   <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                     Settings
                   </a>
@@ -229,7 +230,7 @@ function DashboardContent() {
                     ) : ideas.length === 0 ? (
                       <tr>
                         <td colSpan={3} className="p-4 text-center text-gray-500">
-                          No ideas submitted yet. <a href="/" className="text-indigo-600 hover:text-indigo-500">Submit your first idea!</a>
+                          No ideas submitted yet. <Link href="/" className="text-indigo-600 hover:text-indigo-500">Submit your first idea!</Link>
                         </td>
                       </tr>
                     ) : (

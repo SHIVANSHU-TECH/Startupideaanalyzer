@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -92,7 +93,7 @@ export default function Resources() {
         </div>
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex items-center gap-6">
-            <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</a>
+            <Link className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</Link>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/how-it-works">How It Works</a>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/pricing">Pricing</a>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/community">Community</a>
@@ -315,7 +316,7 @@ export default function Resources() {
                   <div className="bg-white rounded-lg shadow-sm border p-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">Need Something Specific?</h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      Can't find what you're looking for? Let us know what resource you need.
+                      Can&apos;t find what you&apos;re looking for? Let us know what resource you need.
                     </p>
                     <button className="w-full bg-gray-100 text-gray-900 py-2 px-4 rounded-md text-sm font-medium hover:bg-gray-200">
                       Request Resource

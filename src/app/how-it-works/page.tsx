@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -132,7 +133,7 @@ export default function HowItWorks() {
         </div>
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex items-center gap-6">
-            <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</a>
+            <Link className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</Link>
             <a className="text-base font-medium text-gray-900" href="/how-it-works">How It Works</a>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/pricing">Pricing</a>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/community">Community</a>

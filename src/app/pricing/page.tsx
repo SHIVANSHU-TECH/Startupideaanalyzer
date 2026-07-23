@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 
@@ -85,7 +86,7 @@ export default function Pricing() {
         </div>
         <div className="flex items-center gap-4">
           <nav className="hidden md:flex items-center gap-6">
-            <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</a>
+            <Link className="text-base font-medium text-gray-600 hover:text-gray-900" href="/">Home</Link>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/how-it-works">How It Works</a>
             <a className="text-base font-medium text-gray-900" href="/pricing">Pricing</a>
             <a className="text-base font-medium text-gray-600 hover:text-gray-900" href="/community">Community</a>
@@ -229,7 +230,7 @@ export default function Pricing() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900">Compare Features</h2>
               <p className="mt-4 text-lg text-gray-600">
-                See what's included in each plan to find the perfect fit for your needs.
+                See what&apos;s included in each plan to find the perfect fit for your needs.
               </p>
             </div>
 
