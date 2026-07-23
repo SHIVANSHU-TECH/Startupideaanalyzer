@@ -36,11 +36,11 @@ export async function GET(
     );
 
     // Prepare content for download
-    let content: Buffer | string;
+    let content: Uint8Array | string;
     if (report.format === 'pdf') {
-      content = Buffer.from(report.content, 'base64');
+      content = new Uint8Array(Buffer.from(report.content, 'base64'));
     } else {
-      content = report.content;
+      content = report.content as string;
     }
 
     // Set appropriate headers for file download
@@ -52,10 +52,8 @@ export async function GET(
 
     if (report.format === 'pdf') {
       headers.set('Content-Length', content.length.toString());
-      return new NextResponse(content, { headers });
-    } else {
-      return new NextResponse(content, { headers });
     }
+    return new NextResponse(content, { headers });
   } catch (error) {
     console.error('Download report error:', error);
     
