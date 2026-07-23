@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IIdea extends Document {
-  _id: string;
   userId: mongoose.Types.ObjectId;
   title: string;
   description: string;

@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IReport extends Document {
-  _id: string;
   userId: mongoose.Types.ObjectId;
   ideaId: mongoose.Types.ObjectId;
   title: string;
