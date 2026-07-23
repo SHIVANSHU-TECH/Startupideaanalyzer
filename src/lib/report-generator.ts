@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer';
 import { IIdea } from '@/models/Idea';
 
 interface ReportData {
@@ -269,36 +268,12 @@ export async function generateHTMLReport(data: ReportData): Promise<string> {
 }
 
 export async function generatePDFReport(data: ReportData): Promise<Buffer> {
+  // Server-side PDF generation via headless browser is not supported on Vercel serverless.
+  // PDF export is handled client-side via the browser print dialog (client-report-generator.ts).
+  // This server path returns the HTML content as a Buffer so existing report storage logic
+  // continues to work — the download route serves it with text/html mime type.
   const html = await generateHTMLReport(data);
-  
-  // Launch puppeteer in headless mode
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-
-  try {
-    const page = await browser.newPage();
-    
-    // Set content and wait for it to load
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-    
-    // Generate PDF
-    const pdfBuffer = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: {
-        top: '20mm',
-        right: '15mm',
-        bottom: '20mm',
-        left: '15mm'
-      }
-    });
-
-    return Buffer.from(pdfBuffer);
-  } finally {
-    await browser.close();
-  }
+  return Buffer.from(html, 'utf-8');
 }
 
 export function generateReportFilename(ideaTitle: string, format: 'html' | 'pdf' = 'pdf'): string {
