@@ -47,14 +47,6 @@ export async function GET(
     );
 
     // Prepare content for download
-    let content: Uint8Array | string;
-    if (report.format === 'pdf') {
-      content = new Uint8Array(Buffer.from(report.content, 'base64'));
-    } else {
-      content = report.content as string;
-    }
-
-    // Set appropriate headers for file download
     const headers = new Headers({
       'Content-Type': report.mimeType,
       'Content-Disposition': `attachment; filename="${filename}"`,
@@ -68,9 +60,12 @@ export async function GET(
     });
 
     if (report.format === 'pdf') {
-      headers.set('Content-Length', content.length.toString());
+      const buffer = Buffer.from(report.content, 'base64');
+      headers.set('Content-Length', buffer.length.toString());
+      return new Response(buffer, { headers });
+    } else {
+      return new Response(report.content as string, { headers });
     }
-    return new NextResponse(content, { headers });
   } catch (error) {
     console.error('Access shared report error:', error);
     
