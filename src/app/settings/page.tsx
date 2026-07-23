@@ -202,7 +202,7 @@ function SettingsContent() {
                     <div className="flex-shrink-0">
                       <div className="h-20 w-20 rounded-full bg-indigo-500 flex items-center justify-center">
                         <span className="text-white text-2xl font-medium">
-                          {user?.name ? user.name.charAt(0).toUpperCase() : user?.email?.charAt(0).toUpperCase()}
+                          {user?.displayName ? user.displayName.charAt(0).toUpperCase() : user?.email?.charAt(0).toUpperCase()}
                         </span>
                       </div>
                     </div>

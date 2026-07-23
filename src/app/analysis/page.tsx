@@ -59,10 +59,10 @@ function AnalysisContent() {
                     className="flex items-center gap-2 rounded-full bg-gray-100 p-1 hover:bg-gray-200"
                   >
                     <div className="aspect-square size-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-sm font-medium">
-                      {user.name ? user.name.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase()}
+                      {user.displayName ? user.displayName.charAt(0).toUpperCase() : user.email?.charAt(0).toUpperCase()}
                     </div>
                     <span className="hidden sm:block text-sm font-medium text-gray-700">
-                      {user.name || user.email}
+                      {user.displayName || user.email}
                     </span>
                     <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
