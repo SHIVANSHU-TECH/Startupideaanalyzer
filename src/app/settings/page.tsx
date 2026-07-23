@@ -7,7 +7,7 @@ import { apiClient } from '@/lib/api-client';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
 function SettingsContent() {
-  const { user, logout, updateUser } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [activeTab, setActiveTab] = useState('profile');
@@ -17,7 +17,7 @@ function SettingsContent() {
 
   // Form states
   const [profile, setProfile] = useState({
-    displayName: user?.name || '',
+    displayName: user?.displayName || '',
     email: user?.email || '',
     company: '',
     industry: '',
@@ -32,13 +32,7 @@ function SettingsContent() {
 
   // Load user preferences on mount
   useEffect(() => {
-    if (user?.preferences) {
-      setPreferences({
-        emailNotifications: user.preferences.emailNotifications ?? true,
-        analysisReminders: user.preferences.analysisReminders ?? false,
-        newsletterSubscription: user.preferences.newsletterSubscription ?? true
-      });
-    }
+    // preferences are stored locally, not on Firebase Auth User
   }, [user]);
 
   const handleLogout = async () => {
@@ -56,8 +50,7 @@ function SettingsContent() {
         name: profile.displayName
       };
       
-      const { profile: updatedUser } = await apiClient.updateProfile(updateData);
-      updateUser(updatedUser);
+      const { profile: _updatedProfile } = await apiClient.updateProfile(updateData);
       setSuccess('Profile updated successfully!');
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -77,8 +70,7 @@ function SettingsContent() {
         preferences: preferences
       };
       
-      const { profile: updatedUser } = await apiClient.updateProfile(updateData);
-      updateUser(updatedUser);
+      const { profile: _updatedPrefs } = await apiClient.updateProfile(updateData);
       setSuccess('Preferences updated successfully!');
     } catch (error) {
       console.error('Failed to update preferences:', error);
