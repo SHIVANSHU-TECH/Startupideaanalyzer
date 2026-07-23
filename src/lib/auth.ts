@@ -22,10 +22,8 @@ export interface AuthenticatedRequest extends NextRequest {
  * Generate JWT token
  */
 export function generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
-  const expiresIn = process.env.JWT_EXPIRES_IN || '7d';
-  
   return jwt.sign(payload, JWT_SECRET, {
-    expiresIn,
+    expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as jwt.SignOptions['expiresIn'],
     issuer: 'startup-idea-analyzer',
     audience: 'startup-idea-analyzer-users'
   });
