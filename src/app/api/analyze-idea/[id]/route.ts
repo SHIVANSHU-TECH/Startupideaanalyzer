@@ -5,7 +5,7 @@ import * as firebaseAdmin from 'firebase-admin';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   console.log('Analyze idea API called with params:', params);
   
@@ -24,13 +24,11 @@ export async function POST(
       );
     }
 
-    const idToken = authHeader.substring(7); // Remove 'Bearer ' prefix
+    const idToken = authHeader.substring(7);
     console.log('ID token extracted (first 10 chars):', idToken.substring(0, 10) + '...');
     
-    // Import admin dynamically to avoid browser issues
     const admin = firebaseAdmin;
     
-    // Verify Firebase ID token
     let decodedToken;
     try {
       console.log('Verifying Firebase ID token...');
@@ -38,39 +36,22 @@ export async function POST(
       console.log('Firebase ID token verified successfully');
     } catch (error: any) {
       console.error('Token verification failed:', error);
-      
-      // Provide more specific error messages
       if (error?.code === 'auth/argument-error') {
-        return NextResponse.json(
-          { error: 'Invalid token format' },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: 'Invalid token format' }, { status: 401 });
       }
-      
       if (error?.code === 'auth/id-token-expired') {
-        return NextResponse.json(
-          { error: 'Token has expired. Please log in again.' },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: 'Token has expired. Please log in again.' }, { status: 401 });
       }
-      
       if (error?.code === 'auth/id-token-revoked') {
-        return NextResponse.json(
-          { error: 'Token has been revoked. Please log in again.' },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: 'Token has been revoked. Please log in again.' }, { status: 401 });
       }
-      
-      return NextResponse.json(
-        { error: 'Invalid or expired token. Please log in again.' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid or expired token. Please log in again.' }, { status: 401 });
     }
     
     const userId = decodedToken.uid;
     console.log('User ID extracted:', userId);
 
-    const { id: ideaId } = params;
+    const { id: ideaId } = await params;
     console.log('Idea ID extracted:', ideaId);
 
     // Get Firestore instance

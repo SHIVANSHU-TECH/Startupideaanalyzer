@@ -6,13 +6,11 @@ import { generateReportFilename } from '@/lib/report-generator';
 // GET /api/reports/shared/[token] - Access shared report via token
 export async function GET(
   request: NextRequest,
-  { params }: { params: { token: string } }
+  { params }: { params: Promise<{ token: string }> }
 ) {
   try {
-    // Connect to database
     await connectDB();
-
-    const { token } = params;
+    const { token } = await params;
 
     // Find report by share token
     const report = await Report.findOne({ shareToken: token })

@@ -157,16 +157,12 @@ export async function GET(request: NextRequest) {
 // PUT /api/ideas/[id] - Update an idea and trigger analysis
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Parse request body
     const body = await request.json();

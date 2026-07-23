@@ -4,10 +4,11 @@ import admin from 'firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const db = getFirestore();
-        const eventRef = db.collection('events').doc(params.id);
+        const { id } = await params;
+        const eventRef = db.collection('events').doc(id);
 
         // In a real app, we would check if user is already attending in a subcollection
         // For now, simpler increment

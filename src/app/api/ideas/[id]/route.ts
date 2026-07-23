@@ -8,16 +8,12 @@ import { analyzeStartupIdea } from '@/lib/ai-analysis';
 // GET /api/ideas/[id] - Get specific idea with analysis
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Find idea by ID and ensure it belongs to the authenticated user
     const idea = await Idea.findOne({ _id: id, userId: payload.userId })
@@ -54,16 +50,12 @@ export async function GET(
 // PUT /api/ideas/[id] - Update an idea
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Parse request body
     const body = await request.json();
@@ -152,16 +144,12 @@ export async function PUT(
 // DELETE /api/ideas/[id] - Delete an idea
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Find and delete idea by ID, ensuring it belongs to the authenticated user
     const deletedIdea = await Idea.findOneAndDelete({ _id: id, userId: payload.userId });

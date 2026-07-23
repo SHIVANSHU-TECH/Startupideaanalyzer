@@ -10,16 +10,12 @@ import crypto from 'crypto';
 // POST /api/reports/[id]/generate - Generate PDF report for an idea
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
     
     // Parse request body to get format preference
     const body = await request.json().catch(() => ({}));

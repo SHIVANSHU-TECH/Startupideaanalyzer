@@ -4,10 +4,11 @@ import admin from 'firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const db = getFirestore();
-        const docRef = db.collection('ideas').doc(params.id);
+        const { id } = await params;
+        const docRef = db.collection('ideas').doc(id);
         const doc = await docRef.get();
 
         if (!doc.exists) {
@@ -49,10 +50,11 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     }
 }
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const db = getFirestore();
         const body = await req.json();
+        const { id } = await params;
 
         if (!body.content || !body.user) {
             return NextResponse.json({ success: false, error: 'Content and User are required' }, { status: 400 });
@@ -65,7 +67,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
             createdAt: admin.firestore.FieldValue.serverTimestamp()
         };
 
-        const docRef = db.collection('ideas').doc(params.id);
+        const docRef = db.collection('ideas').doc(id);
         const replyRef = await docRef.collection('replies').add(replyData);
 
         return NextResponse.json({ success: true, data: { id: replyRef.id, ...replyData } }, { status: 201 });

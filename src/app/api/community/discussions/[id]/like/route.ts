@@ -4,10 +4,11 @@ import admin from 'firebase-admin';
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         const db = getFirestore();
-        const docRef = db.collection('ideas').doc(params.id);
+        const { id } = await params;
+        const docRef = db.collection('ideas').doc(id);
 
         // Increment the likes field
         await docRef.update({

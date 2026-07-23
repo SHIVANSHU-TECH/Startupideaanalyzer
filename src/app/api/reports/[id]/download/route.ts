@@ -7,16 +7,12 @@ import { generateReportFilename } from '@/lib/report-generator';
 // GET /api/reports/[id]/download - Download a specific report
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Find report by ID and ensure it belongs to the authenticated user
     const report = await Report.findOne({ _id: id, userId: payload.userId })
@@ -80,16 +76,12 @@ export async function GET(
 // DELETE /api/reports/[id]/download - Delete a specific report
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Authenticate user
     const payload = authenticateToken(request);
-    
-    // Connect to database
     await connectDB();
-
-    const { id } = params;
+    const { id } = await params;
 
     // Find and delete report by ID, ensuring it belongs to the authenticated user
     const deletedReport = await Report.findOneAndDelete({ _id: id, userId: payload.userId });
