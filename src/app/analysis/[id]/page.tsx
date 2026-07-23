@@ -400,7 +400,7 @@ const AnalysisPage = () => {
 
               {/* Additional Analysis */}
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                {(idea.analysis.competitorAnalysis || (typeof idea.analysis.competitorAnalysis === 'string' && idea.analysis.competitorAnalysis.length > 0)) && (
+                {!!idea.analysis.competitorAnalysis && (
                   <div className="bg-white overflow-hidden shadow rounded-lg">
                     <div className="px-4 py-5 sm:p-6">
                       <h3 className="text-lg font-medium text-gray-900 mb-4">Competitor Analysis</h3>
@@ -439,7 +439,7 @@ const AnalysisPage = () => {
                   </div>
                 )}
                 
-                {(idea.analysis.targetAudience || (typeof idea.analysis.targetAudience === 'string' && idea.analysis.targetAudience.length > 0)) && (
+                {!!idea.analysis.targetAudience && (
                   <div className="bg-white overflow-hidden shadow rounded-lg">
                     <div className="px-4 py-5 sm:p-6">
                       <h3 className="text-lg font-medium text-gray-900 mb-4">Target Audience</h3>
